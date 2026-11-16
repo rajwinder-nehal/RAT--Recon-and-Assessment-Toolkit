@@ -1,4 +1,4 @@
-# PTAF - Recon Automation Toolkit
+# RAT - Recon Automation Toolkit
 
 ![Tests](https://github.com/<your-username>/PTAF/actions/workflows/tests.yml/badge.svg)
 
