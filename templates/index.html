@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAT - Recon Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="topbar" position="fixed">
+    <div class="brand">
+      <span class="logo">RAT</span>
+      <span class="tagline">Recon Automation Toolkit</span>
+    </div>
+    <span class="badge">v1.0</span>
+  </header>
+
+  <main class="container">
+
+    <!-- Target -->
+    <section class="card" id="target-card">
+      <h2>Target</h2>
+      <div class="row">
+        <input type="text" id="target-input" placeholder="scanme.nmap.org or example.com"
+               autocomplete="off" spellcheck="false">
+        <button id="set-target-btn" class="btn primary">Set Target</button>
+      </div>
+      <label class="consent">
+        <input type="checkbox" id="consent">
+        I am authorized to test this target
+      </label>
+      <p class="hint">Single domain or IP only. Ranges like 192.168.1.0/24 are blocked.</p>
+      <p id="current-target" class="current">No target set</p>
+    </section>
+
+    <!-- Messages and errors -->
+    <div id="message" class="message hidden" role="alert"></div>
+
+      <!-- Modules -->
+    <section class="card" id="actions">
+      <h2>Modules</h2>
+
+      <!-- Line 1: lookups and nmap -->
+      <div class="mod-line">
+        <button class="btn" data-module="dns">DNS Lookup</button>
+        <button class="btn" data-module="whois">WHOIS</button>
+        <button class="btn" data-module="geo">Geolocation</button>
+        <select id="scan-type" aria-label="Nmap scan type">
+          <option value="quick">Quick Scan (top 100 ports)</option>
+          <option value="service">Service Detection</option>
+          <option value="os">OS Detection (needs admin)</option>
+          <option value="full">Full TCP Scan (slow)</option>
+          <option value="aggressive">Aggressive Scan (needs admin)</option>
+        </select>
+        <button class="btn" data-module="nmap">Run Nmap</button>
+      </div>
+
+      <!-- Line 2: subdomains -->
+      <div class="mod-line">
+        <button class="btn" data-module="subdomains">Subdomain Enumeration</button>
+        <label class="consent inline">
+          <input type="checkbox" id="brute">
+          Also brute force common names (active, sends DNS queries)
+        </label>
+      </div>
+
+      <!-- Line 3: report, centered -->
+      <div class="mod-line center">
+        <button class="btn accent" id="report-btn">Generate Report</button>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="results">
+
+      <article class="card result wide" id="panel-findings">
+        <header>
+          <h3>Findings</h3>
+          <span class="status" id="status-findings">Not run</span>
+        </header>
+        <div class="body" id="result-findings"><p class="empty">Findings appear here automatically as you run modules.</p></div>
+      </article>
+
+      <article class="card result" id="panel-dns">
+        <header>
+          <h3>DNS Records</h3>
+          <span class="status" id="status-dns">Not run</span>
+        </header>
+        <div class="body" id="result-dns"><p class="empty">No results yet.</p></div>
+      </article>
+
+      <article class="card result" id="panel-whois">
+        <header>
+          <h3>WHOIS</h3>
+          <span class="status" id="status-whois">Not run</span>
+        </header>
+        <div class="body" id="result-whois"><p class="empty">No results yet.</p></div>
+      </article>
+
+      <article class="card result" id="panel-geo">
+        <header>
+          <h3>IP Geolocation</h3>
+          <span class="status" id="status-geo">Not run</span>
+        </header>
+        <div class="body" id="result-geo"><p class="empty">No results yet.</p></div>
+      </article>
+
+      <article class="card result wide" id="panel-nmap">
+        <header>
+          <h3>Nmap Scan</h3>
+          <span class="status" id="status-nmap">Not run</span>
+        </header>
+        <div class="body" id="result-nmap"><p class="empty">No results yet.</p></div>
+      </article>
+
+      <article class="card result wide" id="panel-subdomains">
+        <header>
+          <h3>Subdomains</h3>
+          <span class="status" id="status-subdomains">Not run</span>
+        </header>
+        <div class="body scroll" id="result-subdomains"><p class="empty">No results yet.</p></div>
+      </article>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    For authorized testing and educational use only.
+  </footer>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
